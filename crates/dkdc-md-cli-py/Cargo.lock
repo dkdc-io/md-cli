@@ -149,7 +149,7 @@ dependencies = [
 
 [[package]]
 name = "dkdc-md-cli"
-version = "0.1.5"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -161,7 +161,7 @@ dependencies = [
 
 [[package]]
 name = "dkdc-md-cli-py"
-version = "0.1.5"
+version = "0.2.0"
 dependencies = [
  "dkdc-md-cli",
  "pyo3",

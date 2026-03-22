@@ -1,6 +1,6 @@
 [package]
 name = "dkdc-md-cli"
-version = "0.1.5"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.93"
 authors = ["Cody <cody@dkdc.dev>"]
@@ -10,7 +10,7 @@ repository = "https://github.com/lostmygithubaccount/md-cli"
 homepage = "https://github.com/lostmygithubaccount/md-cli"
 keywords = ["motherduck", "cli", "duckdb", "api"]
 categories = ["command-line-utilities"]
-readme = "../README.md"
+readme = "../../README.md"
 
 [lib]
 name = "dkdc_md_cli"
