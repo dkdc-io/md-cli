@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Mirror md-cli source from the dkdc monorepo to lostmygithubaccount/md-cli.
+# Mirror md-cli source from the dkdc monorepo to dkdc-io/md-cli.
 # Uses rsync to copy files, then commits and pushes to the public repo.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MD_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-PUBLIC_REPO="lostmygithubaccount/md-cli"
+PUBLIC_REPO="dkdc-io/md-cli"
 CLONE_DIR="${MD_DIR}/.sync-repo"
 
 info()  { printf '\033[1;35m[sync]\033[0m %s\n' "$*"; }
@@ -61,7 +61,7 @@ else
     git push -u origin main
 fi
 
-info "done — https://github.com/lostmygithubaccount/md-cli"
+info "done — https://github.com/dkdc-io/md-cli"
 
 # ──────────────────────────────────────
 # optionally tag a release
