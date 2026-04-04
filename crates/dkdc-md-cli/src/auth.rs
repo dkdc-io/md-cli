@@ -45,10 +45,11 @@ fn resolve_token_with(
     env_var: impl Fn(&str) -> Result<String, std::env::VarError>,
 ) -> Result<String> {
     for var in ENV_VARS {
-        if let Ok(val) = env_var(var)
-            && !val.is_empty()
-        {
-            return Ok(val);
+        if let Ok(val) = env_var(var) {
+            let trimmed = val.trim().to_string();
+            if !trimmed.is_empty() {
+                return Ok(trimmed);
+            }
         }
     }
 
@@ -183,5 +184,17 @@ mod tests {
         let env = env_with(&[("MOTHERDUCK_TOKEN", "env-tok")]);
         let result = resolve_token_or_with(None, env, std::io::empty());
         assert_eq!(result.unwrap(), "env-tok");
+    }
+
+    #[test]
+    fn trims_whitespace_from_env_var() {
+        let env = env_with(&[("MOTHERDUCK_TOKEN", "  tok-with-spaces  \n")]);
+        assert_eq!(resolve_token_with(env).unwrap(), "tok-with-spaces");
+    }
+
+    #[test]
+    fn skips_whitespace_only_env_vars() {
+        let env = env_with(&[("motherduck_token", "  \n"), ("MOTHERDUCK_TOKEN", "real")]);
+        assert_eq!(resolve_token_with(env).unwrap(), "real");
     }
 }
