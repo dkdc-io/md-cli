@@ -643,6 +643,30 @@ mod tests {
     }
 
     #[test]
+    fn display_field_returns_dash_for_null() {
+        let v = serde_json::json!({"name": null});
+        assert_eq!(display_field(&v, "name"), "-");
+    }
+
+    #[test]
+    fn extract_str_returns_value() {
+        let v = serde_json::json!({"size": "standard"});
+        assert_eq!(extract_str(&v, "size"), Some("standard"));
+    }
+
+    #[test]
+    fn extract_str_returns_none_for_missing() {
+        let v = serde_json::json!({});
+        assert_eq!(extract_str(&v, "size"), None);
+    }
+
+    #[test]
+    fn extract_str_returns_none_for_non_string() {
+        let v = serde_json::json!({"count": 42});
+        assert_eq!(extract_str(&v, "count"), None);
+    }
+
+    #[test]
     fn print_table_empty_rows_no_output() {
         // Should not panic or print anything
         print_table(&["A", "B"], &[]);

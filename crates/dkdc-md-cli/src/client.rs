@@ -270,4 +270,35 @@ mod tests {
         assert_eq!(json["ttl"], 3600);
         assert_eq!(json["token_type"], "read_write");
     }
+
+    #[test]
+    fn new_rejects_empty_token() {
+        let err = MotherduckClient::new("").unwrap_err();
+        assert!(err.to_string().contains("must not be empty"));
+    }
+
+    #[test]
+    fn debug_redacts_bearer_token() {
+        let client = MotherduckClient::new("secret-token").unwrap();
+        let debug = format!("{client:?}");
+        assert!(debug.contains("[redacted]"));
+        assert!(!debug.contains("secret-token"));
+    }
+
+    #[test]
+    fn parse_response_boundary_status_299() {
+        let result = parse_response(299, r#"{"ok": true}"#.into()).unwrap();
+        assert_eq!(result["ok"], true);
+    }
+
+    #[test]
+    fn parse_response_boundary_status_300() {
+        let err = parse_response(300, r#"{"message": "redirect"}"#.into()).unwrap_err();
+        assert!(err.to_string().contains("300"));
+    }
+
+    #[test]
+    fn encode_path_percent_encodes_percent() {
+        assert_eq!(encode_path("100%done"), "100%25done");
+    }
 }
